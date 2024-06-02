@@ -17,3 +17,15 @@ package PolymorphicFunc:
 
     findFirst(nameArr, (i) => i == keyword)
     findFirst(intArr, (i) => i == keyint)
+
+package PolymorphicFuncExercise:
+  // def isSorted[A](as: Array[A], ordered: (A,A) => Boolean): Boolean
+  def isSorted[A](as: Array[A], ordered: (A,A) => Boolean): Boolean = 
+    as.sliding(2).map((arr) => ordered(arr(0), arr(1))).forall((b) => b == true)   
+
+  def main =
+    val unsortedArray = Array(4,5,3,6,2,1)
+    val sortedArray = Array(1,2,3,4,5,6)
+    println(isSorted(unsortedArray, (l, r) => l <= r ))
+    println(isSorted(sortedArray, (l, r) => l <= r ))
+

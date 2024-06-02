@@ -5,7 +5,7 @@ import PolymorphicFunc.mainPolymorphicFunc
 @main def hello(): Unit =
   // val factorialHof = formatResult("Factorial", 5, factorialWithHof)
   // println(factorialHof)
-  mainPolymorphicFunc
+  PolymorphicFuncExercise.main
 
 
   
