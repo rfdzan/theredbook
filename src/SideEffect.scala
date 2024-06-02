@@ -1,15 +1,15 @@
-package money:
-  class CreditCard {
-    def deposit(): Int =
-      100
-    // with side effect
-    def charge(price: Int) =
-      val deposit = 100
-      deposit - price
-  }
-package withSideEffect:
+package TheCafe
+
+class CreditCard {
+  def deposit(): Int =
+    100
+  // with side effect
+  def charge(price: Int) =
+    val deposit = 100
+    deposit - price
+}
+object withSideEffect {
   import whatIsBought.Coffee
-  import money.CreditCard
   class Cafe {
     def buyCoffee(cc: CreditCard): Coffee =
       val cup = new Coffee()
@@ -18,9 +18,9 @@ package withSideEffect:
       cc.charge(cup.price())
       cup
   }
-package moreModular:
+}
+object moreModular {
   import whatIsBought.Coffee
-  import money.CreditCard
   class Payments {
     def charge(cc: CreditCard, price: Int): Int =
       val coffee = new Coffee();
@@ -34,15 +34,17 @@ package moreModular:
       p.charge(cc, cup.price())
       cup
   }
-package whatIsBought:
+}
+object whatIsBought {
   class Coffee {
     def price(): Int =
       10
   }
-/** Functional solution*/
-package functionalSolution:
+}
+
+/** Functional solution */
+object functionalSolution {
   import whatIsBought.Coffee
-  import money.CreditCard
   case class Charge(cc: CreditCard, amount: Double) {
     def combine(other: Charge): Charge =
       if (cc == other.cc)
@@ -50,6 +52,7 @@ package functionalSolution:
       else
         throw new Exception("Cannot combine charges of different credit cards.")
   }
+
   class functionalCafe {
     def buyCoffee(cc: CreditCard): (Coffee, Charge) =
       val cup = new Coffee()
@@ -64,3 +67,21 @@ package functionalSolution:
       (coffees, charges.reduce((c1, c2) => c1.combine(c2)))
 
   }
+}
+package RunCafe:
+  import withSideEffect.Cafe
+  import whatIsBought.Coffee
+  import moreModular.{modularCafe, Payments}
+  import functionalSolution.functionalCafe
+  def hasSideEffect: Coffee =
+    val cafe = new Cafe()
+    val cc = new CreditCard()
+    cafe.buyCoffee(cc)
+
+  def isMoreModular: Unit =
+    val cafe = new modularCafe();
+    cafe.buyCoffee(new CreditCard(), new Payments())
+
+  def funcCafe =
+    val cafe = new functionalCafe()
+    val result = cafe.buyCoffees(new CreditCard(), 10)
